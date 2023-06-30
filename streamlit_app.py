@@ -75,7 +75,7 @@ else:
     print("Error in the URL")
     
  
-def img_to_bytes(img_path):
+def img_to_bytes(img_path): #funcion para agregar imagenes con .markdown
     img_bytes = Path(img_path).read_bytes()
     encoded = base64.b64encode(img_bytes).decode()
     return encoded
@@ -150,7 +150,7 @@ st.write(' ')
 st.write(' ')
 st.write(' ')
 
-def rpage_1():
+def rpage_1(): #inicio
 
     st.markdown(
         """
@@ -307,7 +307,7 @@ def rpage_1():
     
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 
-def rpage_2():
+def rpage_2(): #recomendacion
     
     st.markdown(
         """
@@ -566,7 +566,7 @@ def rpage_2():
 
         
 
-def rpage_3():   
+def rpage_3(): #dashboard
     
     tot1_2, tot2_2, tot3_2 = st.columns((1.3,3,3))
 
