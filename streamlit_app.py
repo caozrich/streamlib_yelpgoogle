@@ -392,14 +392,14 @@ def rpage_2(): #recomendacion
 
     with col1_3:
         estado_seleccionado = st.selectbox(
-            'ESTADO',
+            'ESTADO:',
             valores_unicos_estado)
 
     with col2_3:
         if estado_seleccionado != "Recomendar":
             ciudades_por_estado = obtener_ciudades_por_estado(estado_seleccionado)
-            ciudad_seleccionada = st.selectbox(
-                'CUIDAD',
+            ciudad_seleccionada_2 = st.selectbox(
+                'CUIDAD:',
                 ciudades_por_estado)
         else:
             ciudad_seleccionada = "Recomendar"
