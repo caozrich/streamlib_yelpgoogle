@@ -369,197 +369,198 @@ def rpage_2(): #recomendacion
     """, unsafe_allow_html=True)    
 
 
-
-    valores_unicos_estado, valores_unicos_ciudad, mejor_sector_por_estado_ciudad = obtener_sector_recomendado()
-    st.markdown("<h4 style='text-align: center; color: #555750;'>🢒🢒¿TE GUSTARÍA CONOCER EL MEJOR SECTOR ECONÓMICO PARA UNA UBICACIÓN ESPECÍFICA?</h5>", unsafe_allow_html=True)
-    st.write(' ')  
- 
-    tot1_1, tot2_1, tot3_1 = st.columns((2.5,3,2))
-
-    with tot1_1:
-        st.write(' ')   
-
-    with tot2_1:
-        st.markdown('<p class="big-font2"><br>(Si aún no has decidido en qué estado establecer tu local, te invitamos a probar nuestro dashboard interactivo. Puedes acceder a él haciendo clic en la pestaña "DASHBOARD" en la barra de navegación. Allí encontrarás información detallada y herramientas interactivas que te ayudarán a explorar diferentes estados).</p>', unsafe_allow_html=True)
+    try:
+        valores_unicos_estado, valores_unicos_ciudad, mejor_sector_por_estado_ciudad = obtener_sector_recomendado()
+        st.markdown("<h4 style='text-align: center; color: #555750;'>🢒🢒¿TE GUSTARÍA CONOCER EL MEJOR SECTOR ECONÓMICO PARA UNA UBICACIÓN ESPECÍFICA?</h5>", unsafe_allow_html=True)
+        st.write(' ')  
+     
+        tot1_1, tot2_1, tot3_1 = st.columns((2.5,3,2))
+    
+        with tot1_1:
+            st.write(' ')   
+    
+        with tot2_1:
+            st.markdown('<p class="big-font2"><br>(Si aún no has decidido en qué estado establecer tu local, te invitamos a probar nuestro dashboard interactivo. Puedes acceder a él haciendo clic en la pestaña "DASHBOARD" en la barra de navegación. Allí encontrarás información detallada y herramientas interactivas que te ayudarán a explorar diferentes estados).</p>', unsafe_allow_html=True)
+            
+        with tot3_1:
+            st.write(' ')         
+        st.write(' ')  
+        st.write(' ')  
+        st.write(' ')  
+    
+        col1_3, col2_3, col3_3 = st.columns(3)
+    
+        with col1_3:
+            estado_seleccionado = st.selectbox(
+                'ESTADO:',
+                valores_unicos_estado)
+    
+        with col2_3:
+            if estado_seleccionado != "Recomendar":
+                ciudades_por_estado = obtener_ciudades_por_estado(estado_seleccionado)
+                ciudad_seleccionada = st.selectbox(
+                    'CUIDAD:',
+                    ciudades_por_estado)
+            else:
+                ciudad_seleccionada = "Recomendar"
+    
+    
+        with col3_3:
+            if estado_seleccionado == "Recomendar":
+                st.write(' ')
+                st.write(' ')
+                st.write(":warning: Seleccione un estado y ciudad para obtener una recomendación.")
+            elif ciudad_seleccionada == "Recomendar":
+                st.write(' ')
+                st.write(' ')
+                st.write(":warning: Seleccione una ciudad para obtener una recomendación.")
+            else:
+                try:
+                    mejor_sector = mejor_sector_por_estado_ciudad.loc[(estado_seleccionado, ciudad_seleccionada)]
+                    st.write(' ')
+                    st.write(' ')
+                    st.write(">:heavy_check_mark: 🢒Mejor sector económico para el estado '{}' y la ciudad '{}': **{}**".format(estado_seleccionado, ciudad_seleccionada, mejor_sector))
+                except:
+                    st.write(' ')
+                    st.write(' ')
+                    st.write(">:x: 🢒No hay datos suficientes para hacer esta recomendación para el estado y ciudad seleccionados.")
+    
+    
+        st.markdown("""<hr style="height:2px;border:none;color:#dfcac9;background-color:#dfcac9;" /> """, unsafe_allow_html=True)
+    #----------------------------------------------------------------------------------------
+    
+        st.write(' ') 
+        st.write(' ')       
+        st.write(' ')       
+        valores_unicos_sector,valores_unicos_estado,mejor_sector_por_estado,mejor_ciudad_por_estado_sector = obtener_ciudad_recomendada()
+        st.markdown("<h4 style='text-align: center; color: #555750;'>🢒🢒¿TE GUSTARÍA CONOCER EL MEJOR LUGAR PARA UN SECTOR ECONÓMICO ESPECÍFICO?</h5>", unsafe_allow_html=True)   
+        st.write(' ')  
+     
+        tot1_2, tot2_2, tot3_2 = st.columns((3.5,3,3))
+    
+        with tot1_2:
+            st.write(' ')   
+    
+        with tot2_2:
+            st.markdown('<p class="big-font2"><br>(generar recomendaciones de lugar usando un estado y sector economico como referencia, se evalua por rating).</p>', unsafe_allow_html=True)
+            
+        with tot3_2:
+            st.write(' ')         
+        st.write(' ')  
+        st.write(' ')  
+        st.write(' ')  
+    
+        col1_2, col2_2, col3_2 = st.columns(3)
+    
+        with col1_2:
+            estado_seleccionado = st.selectbox(
+                'ESTADO',
+                valores_unicos_estado)
+    
+        with col2_2:
+            if estado_seleccionado != "Recomendar":
+                sector_seleccionado = st.selectbox(
+                    'SECTOR ECONÓMICO',
+                    valores_unicos_sector)
+            else:
+                sector_seleccionado = "Recomendar"
+    
+        with col3_2:
+            if estado_seleccionado == "Recomendar":
+                st.write(' ') 
+                st.write(' ')                 
+                st.write(":warning: Seleccione un estado y sector económico para obtener una recomendación.")
+            elif sector_seleccionado == "Recomendar":
+                st.write(' ') 
+                st.write(' ')                 
+                st.write(":warning: Seleccione un sector económico para obtener una recomendación.")
+            else:
+                try:
+                    mejor_ciudad = mejor_ciudad_por_estado_sector.loc[(estado_seleccionado, sector_seleccionado)]
+                    st.write(' ') 
+                    st.write(' ')     
+                    st.write(">:heavy_check_mark: 🢒Mejor sitio para el estado '{}' y el sector económico '{}': {}".format(estado_seleccionado, sector_seleccionado, mejor_ciudad))
+                except:
+                    st.write(' ') 
+                    st.write(' ')    
+                    st.write(">:x: 🢒Estado no cuenta con datos suficientes para hacer esta recomendacion.")  
+    
+            
+            
+    
+                           
+        st.markdown("""<hr style="height:2px;border:none;color:#dfcac9;background-color:#dfcac9;" /> """, unsafe_allow_html=True)    
         
-    with tot3_1:
-        st.write(' ')         
-    st.write(' ')  
-    st.write(' ')  
-    st.write(' ')  
-
-    col1_3, col2_3, col3_3 = st.columns(3)
-
-    with col1_3:
-        estado_seleccionado = st.selectbox(
-            'ESTADO:',
-            valores_unicos_estado)
-
-    with col2_3:
-        if estado_seleccionado != "Recomendar":
+    #-------------------------------------------------------------------------------------
+        st.write(' ')  
+        st.write(' ')  
+        st.write(' ')  
+        st.markdown("<h4 style='text-align: center; color: #555750;'>🢒🢒¡DESCUBRE LA POSIBLE CALIFICACIÓN QUE PODRÍA TENER TU NEGOCIO!</h5>", unsafe_allow_html=True)
+        st.write(' ')  
+     
+        tot1, tot2, tot3 = st.columns((3.5,3,3))
+    
+        with tot1:
+            st.write(' ')   
+    
+        with tot2:
+            st.markdown('<p class="big-font2"><br>(generar predicciones del rating  asociado a  estado, ciudad y sector económico determinado).</p>', unsafe_allow_html=True)
+            
+        with tot3:
+            st.write(' ')         
+        st.write(' ')  
+        st.write(' ')  
+        st.write(' ')
+        col1, col2, col3 = st.columns(3)
+        
+    
+        with col1:
+            estado_seleccionado = st.selectbox(
+                'ESTADO',
+                tupla_valores_unicos_estado)
+    
+        with col2:
             ciudades_por_estado = obtener_ciudades_por_estado(estado_seleccionado)
             ciudad_seleccionada = st.selectbox(
-                'CUIDAD:',
+                'CUIDAD',
                 ciudades_por_estado)
-        else:
-            ciudad_seleccionada = "Recomendar"
-
-
-    with col3_3:
-        if estado_seleccionado == "Recomendar":
-            st.write(' ')
-            st.write(' ')
-            st.write(":warning: Seleccione un estado y ciudad para obtener una recomendación.")
-        elif ciudad_seleccionada == "Recomendar":
-            st.write(' ')
-            st.write(' ')
-            st.write(":warning: Seleccione una ciudad para obtener una recomendación.")
-        else:
-            try:
-                mejor_sector = mejor_sector_por_estado_ciudad.loc[(estado_seleccionado, ciudad_seleccionada)]
-                st.write(' ')
-                st.write(' ')
-                st.write(">:heavy_check_mark: 🢒Mejor sector económico para el estado '{}' y la ciudad '{}': **{}**".format(estado_seleccionado, ciudad_seleccionada, mejor_sector))
-            except:
-                st.write(' ')
-                st.write(' ')
-                st.write(">:x: 🢒No hay datos suficientes para hacer esta recomendación para el estado y ciudad seleccionados.")
-
-
-    st.markdown("""<hr style="height:2px;border:none;color:#dfcac9;background-color:#dfcac9;" /> """, unsafe_allow_html=True)
-#----------------------------------------------------------------------------------------
-
-    st.write(' ') 
-    st.write(' ')       
-    st.write(' ')       
-    valores_unicos_sector,valores_unicos_estado,mejor_sector_por_estado,mejor_ciudad_por_estado_sector = obtener_ciudad_recomendada()
-    st.markdown("<h4 style='text-align: center; color: #555750;'>🢒🢒¿TE GUSTARÍA CONOCER EL MEJOR LUGAR PARA UN SECTOR ECONÓMICO ESPECÍFICO?</h5>", unsafe_allow_html=True)   
-    st.write(' ')  
- 
-    tot1_2, tot2_2, tot3_2 = st.columns((3.5,3,3))
-
-    with tot1_2:
-        st.write(' ')   
-
-    with tot2_2:
-        st.markdown('<p class="big-font2"><br>(generar recomendaciones de lugar usando un estado y sector economico como referencia, se evalua por rating).</p>', unsafe_allow_html=True)
-        
-    with tot3_2:
-        st.write(' ')         
-    st.write(' ')  
-    st.write(' ')  
-    st.write(' ')  
-
-    col1_2, col2_2, col3_2 = st.columns(3)
-
-    with col1_2:
-        estado_seleccionado = st.selectbox(
-            'ESTADO',
-            valores_unicos_estado)
-
-    with col2_2:
-        if estado_seleccionado != "Recomendar":
-            sector_seleccionado = st.selectbox(
-                'SECTOR ECONÓMICO',
-                valores_unicos_sector)
-        else:
-            sector_seleccionado = "Recomendar"
-
-    with col3_2:
-        if estado_seleccionado == "Recomendar":
-            st.write(' ') 
-            st.write(' ')                 
-            st.write(":warning: Seleccione un estado y sector económico para obtener una recomendación.")
-        elif sector_seleccionado == "Recomendar":
-            st.write(' ') 
-            st.write(' ')                 
-            st.write(":warning: Seleccione un sector económico para obtener una recomendación.")
-        else:
-            try:
-                mejor_ciudad = mejor_ciudad_por_estado_sector.loc[(estado_seleccionado, sector_seleccionado)]
-                st.write(' ') 
-                st.write(' ')     
-                st.write(">:heavy_check_mark: 🢒Mejor sitio para el estado '{}' y el sector económico '{}': {}".format(estado_seleccionado, sector_seleccionado, mejor_ciudad))
-            except:
-                st.write(' ') 
-                st.write(' ')    
-                st.write(">:x: 🢒Estado no cuenta con datos suficientes para hacer esta recomendacion.")  
-
-        
-        
-
+    
+        with col3:
+            sector = st.selectbox(
+                'SECTOR ECONOMICO',
+                ('cuidado de la salud', 'industria de alimentos y bebidas', 'comercio',
+                'industria de la belleza', 'industria de servicios automotrices',
+                'hoteles'))
+            
+            
+        st.write(' ')  
+        st.write(' ')  
+    
                        
-    st.markdown("""<hr style="height:2px;border:none;color:#dfcac9;background-color:#dfcac9;" /> """, unsafe_allow_html=True)    
+                       
+        bot1, bot2, bot3 = st.columns((3.4,1,3))
     
-#-------------------------------------------------------------------------------------
-    st.write(' ')  
-    st.write(' ')  
-    st.write(' ')  
-    st.markdown("<h4 style='text-align: center; color: #555750;'>🢒🢒¡DESCUBRE LA POSIBLE CALIFICACIÓN QUE PODRÍA TENER TU NEGOCIO!</h5>", unsafe_allow_html=True)
-    st.write(' ')  
- 
-    tot1, tot2, tot3 = st.columns((3.5,3,3))
-
-    with tot1:
-        st.write(' ')   
-
-    with tot2:
-        st.markdown('<p class="big-font2"><br>(generar predicciones del rating  asociado a  estado, ciudad y sector económico determinado).</p>', unsafe_allow_html=True)
-        
-    with tot3:
-        st.write(' ')         
-    st.write(' ')  
-    st.write(' ')  
-    st.write(' ')
-    col1, col2, col3 = st.columns(3)
+        with bot1:
+            st.write(' ')   
     
-
-    with col1:
-        estado_seleccionado = st.selectbox(
-            'ESTADO',
-            tupla_valores_unicos_estado)
-
-    with col2:
-        ciudades_por_estado = obtener_ciudades_por_estado(estado_seleccionado)
-        ciudad_seleccionada = st.selectbox(
-            'CUIDAD',
-            ciudades_por_estado)
-
-    with col3:
-        sector = st.selectbox(
-            'SECTOR ECONOMICO',
-            ('cuidado de la salud', 'industria de alimentos y bebidas', 'comercio',
-            'industria de la belleza', 'industria de servicios automotrices',
-            'hoteles'))
-        
-        
-    st.write(' ')  
-    st.write(' ')  
-
-                   
-                   
-    bot1, bot2, bot3 = st.columns((3.4,1,3))
-
-    with bot1:
-        st.write(' ')   
-
-    with bot2:
-        dbut =  st.button("**PREDECIR RATING**")  
-   
-    with bot3:
-        st.write(' ')          
-
-    xol1, xol2, xol3 = st.columns((3.35,3,3))
-    with xol1:
-        st.write(' ')           
-    with xol2:        
-        if dbut:
-           rating = round(get_rating(sector, ciudad_seleccionada, estado_seleccionado),1)
-           st.plotly_chart(plot_gauge(rating), use_container_width=True)
-           
-    with xol3:                
-        st.write(' ')             
- 
+        with bot2:
+            dbut =  st.button("**PREDECIR RATING**")  
+       
+        with bot3:
+            st.write(' ')          
+    
+        xol1, xol2, xol3 = st.columns((3.35,3,3))
+        with xol1:
+            st.write(' ')           
+        with xol2:        
+            if dbut:
+               rating = round(get_rating(sector, ciudad_seleccionada, estado_seleccionado),1)
+               st.plotly_chart(plot_gauge(rating), use_container_width=True)
+               
+        with xol3:                
+            st.write(' ')             
+    except:
+       pass   
     st.markdown("""<hr style="height:2px;border:none;color:#dfcac9;background-color:#dfcac9;" /> """, unsafe_allow_html=True)
     
     #?--------------------------------------------------------------------------
